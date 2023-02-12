@@ -2,7 +2,7 @@ from .model import Entry
 
 from abc import ABC, abstractmethod
 from datetime import datetime
-from typing import Optional
+from typing import List, Optional
 
 
 class Database(ABC):
@@ -26,4 +26,3 @@ class ComplexDataBase(Database):
         """
             Returns the list of entries which intersection with the start_time and end_time
         """
-        
