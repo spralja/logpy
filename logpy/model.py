@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import Optional, Self
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, ordered=True)
 class Entry:
     start_time: datetime
     end_time: datetime
@@ -21,3 +21,6 @@ class Entry:
         if other: return self.start_time < other.end_time and self.end_time > other.start_time
 
         return True
+
+    def duration(self):
+        return self.end_time - self.start_time
