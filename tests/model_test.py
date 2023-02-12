@@ -66,3 +66,13 @@ class EntryIntersectionTestCase(unittest.TestCase):
         entry2 = Entry(datetime(2023, 2, 12, 18, 50), datetime(2023, 2, 12, 18, 55), 'Test')
 
         self.assertFalse(entry1.has_intersection(entry2))
+
+    def test_entry_has_intersection6(self):
+        """
+        a1-a2 - no intersection (other is None)
+        """
+        
+        entry1 = Entry(datetime(2023, 2, 12, 19, 30), datetime(2023, 2, 12, 19, 35), 'Test')
+        entry2 = None
+
+        self.assertFalse(entry1.has_intersection(entry2))
