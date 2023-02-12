@@ -20,7 +20,7 @@ class Entry:
         """
         if other: return self.start_time < other.end_time and self.end_time > other.start_time
 
-        return True
+        return False
 
     def duration(self):
         return self.end_time - self.start_time
