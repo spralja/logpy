@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import Optional, Self
 
 
-@dataclass(frozen=True, ordered=True)
+@dataclass(frozen=True, order=True)
 class Entry:
     start_time: datetime
     end_time: datetime
