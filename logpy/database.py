@@ -20,7 +20,7 @@ class Database(ABC):
         """
 
 
-class ComplexDataBase(Database):
+class ComplexDatabase(Database):
     @abstractmethod
     def get_intersection(self, start_time, end_time) -> List[Entry]:
         """
