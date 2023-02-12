@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Self
+from typing import Optional, Self
 
 
 @dataclass(frozen=True)
@@ -14,8 +14,10 @@ class Entry:
         if self.end_time <= self.start_time:
             raise ValueError("End time must be after start time")
 
-    def has_intersection(self, other: Self) -> bool:
+    def has_intersection(self, other: Optional[Self]) -> bool:
         """
-        Returns True if there is an intersection between self and other and False otherwise
+        Returns True if there is an intersection between self and other and False otherwise (if other is None, returns True)
         """
-        return self.start_time < other.end_time and self.end_time > other.start_time
+        if other: return self.start_time < other.end_time and self.end_time > other.start_time
+
+        return True
