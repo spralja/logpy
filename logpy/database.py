@@ -1,4 +1,7 @@
+from .model import Entry
+
 from abc import ABC, abstractmethod
+from datetime import datetime
 
 
 class Database(ABC):
