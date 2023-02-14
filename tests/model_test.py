@@ -13,10 +13,9 @@ class EntryIntersectionTestCase(unittest.TestCase):
         """
 
         entry1 = Entry(datetime(2023, 2, 12, 18, 35), datetime(2023, 2, 12, 18, 40), 'Test')
-        start_time = datetime(2023, 2, 12, 18, 45)
-        end_time = datetime(2023, 2, 12, 18, 50)
+        entry2 = Entry(datetime(2023, 2, 12, 18, 45), datetime(2023, 2, 12, 18, 50), 'Test')
 
-        self.assertFalse(entry1.has_intersection(entry2))
+        self.assertFalse(entry1.intersection(entry2))
     
     def test_entry_intersection1(self):
         """
@@ -26,7 +25,7 @@ class EntryIntersectionTestCase(unittest.TestCase):
         entry1 = Entry(datetime(2023, 2, 12, 18, 40), datetime(2023, 2, 12, 18, 50), 'Test')
         entry2 = Entry(datetime(2023, 2, 12, 18, 45), datetime(2023, 2, 12, 18, 55), 'Test')
 
-        self.assertTrue(entry1.has_intersection(entry2))
+        self.assertTrue(entry1.intersection(entry2))
 
     def test_entry_intersection2(self):
         """
@@ -36,7 +35,7 @@ class EntryIntersectionTestCase(unittest.TestCase):
         entry1 = Entry(datetime(2023, 2, 12, 18, 45), datetime(2023, 2, 12, 19), 'Test')
         entry2 = Entry(datetime(2023, 2, 12, 18, 50), datetime(2023, 2, 12, 18, 55), 'Test')
 
-        self.assertTrue(entry1.has_intersection(entry2))
+        self.assertTrue(entry1.intersection(entry2))
 
     def test_entry_intersection3(self):
         """
@@ -46,7 +45,7 @@ class EntryIntersectionTestCase(unittest.TestCase):
         entry1 = Entry(datetime(2023, 2, 12, 18, 50), datetime(2023, 2, 12, 18, 55), 'Test')
         entry2 = Entry(datetime(2023, 2, 12, 18, 45), datetime(2023, 2, 12, 19), 'Test')
 
-        self.assertTrue(entry1.has_intersection(entry2))
+        self.assertTrue(entry1.intersection(entry2))
 
     def test_entry_intersection4(self):
         """
@@ -56,7 +55,7 @@ class EntryIntersectionTestCase(unittest.TestCase):
         entry1 = Entry(datetime(2023, 2, 12, 18, 55), datetime(2023, 2, 12, 19, 5), 'Test')
         entry2 = Entry(datetime(2023, 2, 12, 18, 50), datetime(2023, 2, 12, 19), 'Test')
 
-        self.assertTrue(entry1.has_intersection(entry2))
+        self.assertTrue(entry1.intersection(entry2))
 
     def test_entry_intersection5(self):
         """
@@ -66,7 +65,7 @@ class EntryIntersectionTestCase(unittest.TestCase):
         entry1 = Entry(datetime(2023, 2, 12, 19), datetime(2023, 2, 12, 19, 5), 'Test')
         entry2 = Entry(datetime(2023, 2, 12, 18, 50), datetime(2023, 2, 12, 18, 55), 'Test')
 
-        self.assertFalse(entry1.has_intersection(entry2))
+        self.assertFalse(entry1.intersection(entry2))
 
     def test_entry_intersection6(self):
         """
@@ -76,4 +75,4 @@ class EntryIntersectionTestCase(unittest.TestCase):
         entry1 = Entry(datetime(2023, 2, 12, 19, 30), datetime(2023, 2, 12, 19, 35), 'Test')
         entry2 = None
 
-        self.assertFalse(entry1.has_intersection(entry2))
+        self.assertFalse(entry1.intersection(entry2))
