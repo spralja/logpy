@@ -7,17 +7,18 @@ from datetime import datetime
 
 class EntryIntersectionTestCase(unittest.TestCase):
 
-    def test_entry_has_intersection0(self):
+    def test_entry_intersection0(self):
         """
         a1-a2-b1-b2 - no intersection
         """
 
         entry1 = Entry(datetime(2023, 2, 12, 18, 35), datetime(2023, 2, 12, 18, 40), 'Test')
-        entry2 = Entry(datetime(2023, 2, 12, 18, 45), datetime(2023, 2, 12, 18, 50), 'Test')
+        start_time = datetime(2023, 2, 12, 18, 45)
+        end_time = datetime(2023, 2, 12, 18, 50)
 
         self.assertFalse(entry1.has_intersection(entry2))
     
-    def test_entry_has_intersection1(self):
+    def test_entry_intersection1(self):
         """
         a1-b1-a2-b2 - intersection
         """
@@ -27,7 +28,7 @@ class EntryIntersectionTestCase(unittest.TestCase):
 
         self.assertTrue(entry1.has_intersection(entry2))
 
-    def test_entry_has_intersection2(self):
+    def test_entry_intersection2(self):
         """
         a1-b1-b2-a2 - intersection
         """
@@ -37,7 +38,7 @@ class EntryIntersectionTestCase(unittest.TestCase):
 
         self.assertTrue(entry1.has_intersection(entry2))
 
-    def test_entry_has_intersection3(self):
+    def test_entry_intersection3(self):
         """
         b1-a1-a2-b2 - intersection
         """
@@ -47,7 +48,7 @@ class EntryIntersectionTestCase(unittest.TestCase):
 
         self.assertTrue(entry1.has_intersection(entry2))
 
-    def test_entry_has_intersection4(self):
+    def test_entry_intersection4(self):
         """
         b1-a1-b2-a2 - intersection
         """
@@ -57,7 +58,7 @@ class EntryIntersectionTestCase(unittest.TestCase):
 
         self.assertTrue(entry1.has_intersection(entry2))
 
-    def test_entry_has_intersection5(self):
+    def test_entry_intersection5(self):
         """
         b1-b2-a1-a2 - no intersection
         """
@@ -67,7 +68,7 @@ class EntryIntersectionTestCase(unittest.TestCase):
 
         self.assertFalse(entry1.has_intersection(entry2))
 
-    def test_entry_has_intersection6(self):
+    def test_entry_intersection6(self):
         """
         a1-a2 - no intersection (other is None)
         """

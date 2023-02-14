@@ -14,7 +14,7 @@ class Entry:
         if self.end_time <= self.start_time:
             raise ValueError("End time must be after start time")
 
-    def has_intersection(self, other: Optional[Self]) -> bool:
+    def intersection(self, other: Optional[Self]) -> bool:
         """
         Returns True if there is an intersection between self and other and False otherwise (if other is None, returns True)
         """
