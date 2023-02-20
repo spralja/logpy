@@ -2,77 +2,118 @@ import unittest
 
 from logpy.model import Entry
 
-from datetime import datetime
+from datetime import datetime, timezone
 
+
+class EntryTestCase(unittest.TestCase):
+    def test_validation(self):
+        # end_time <= start_time
+        with self.assertRaises(ValueError):
+            Entry(
+                datetime(2023, 20, 2, 23, 40, tzinfo=timezone.utc),
+                datetime(2023, 20, 2, 23, 30, tzinfo=timezone.utc),
+                'Category'
+            )
+
+        # start_time and end_time are not UTC
+        with self.assertRaises(ValueError):
+            Entry(
+                datetime(2023, 20, 2, 23, 40),
+                datetime(2023, 20, 2, 23, 45),
+                'Category'
+            )
+            
 
 class EntryIntersectionTestCase(unittest.TestCase):
+    def setUp(self):
+        self.entry = Entry(
+            datetime(2023, 2, 20, 23, 10, tzinfo=timezone.utc),
+            datetime(2023, 2, 20, 23, 15, tzinfo=timezone.utc),
+            'Category'
+        )
 
-    def test_entry_intersection0(self):
-        """
-        a1-a2-b1-b2 - no intersection
-        """
+    def test_intersection_validation(self):
+        # start_time and end_time are not utc
+        with self.assertRaises(ValueError):
+            self.entry.intersection(
+                datetime(2023, 2, 20, 23),
+                datetime(2023, 2, 20, 23)
+            )
 
-        entry1 = Entry(datetime(2023, 2, 12, 18, 35), datetime(2023, 2, 12, 18, 40), 'Test')
-        entry2 = Entry(datetime(2023, 2, 12, 18, 45), datetime(2023, 2, 12, 18, 50), 'Test')
-
-        self.assertFalse(entry1.intersection(entry2))
+        # start_time >= end_time
+        with self.assertRaises(ValueError):
+            self.entry.intersection(
+                datetime(2023, 2, 20, 23, 15, tzinfo=timezone.utc),
+                datetime(2023, 2, 20, 23, 10, tzinfo=timezone.utc)
+            )
     
-    def test_entry_intersection1(self):
-        """
-        a1-b1-a2-b2 - intersection
-        """
+    def test_intersection_T1_T2_E1_E2(self):
+        start_time = datetime(2023, 2, 20, 23, 5, tzinfo=timezone.utc)
+        end_time = datetime(2023, 2, 20, 23, 10, tzinfo=timezone.utc)
+        interval = (start_time, end_time)
 
-        entry1 = Entry(datetime(2023, 2, 12, 18, 40), datetime(2023, 2, 12, 18, 50), 'Test')
-        entry2 = Entry(datetime(2023, 2, 12, 18, 45), datetime(2023, 2, 12, 18, 55), 'Test')
+        expected = None
 
-        self.assertTrue(entry1.intersection(entry2))
+        self.assertEquals(self.entry.intersection(*interval), expected)
 
-    def test_entry_intersection2(self):
-        """
-        a1-b1-b2-a2 - intersection
-        """
+    def test_intersection_T1_E1_T2_E2(self):
+        start_time = datetime(2023, 2, 20, 23, 5, tzinfo=timezone.utc)
+        end_time = datetime(2023, 2, 20, 23, 12, tzinfo=timezone.utc)
+        interval = (start_time, end_time)
 
-        entry1 = Entry(datetime(2023, 2, 12, 18, 45), datetime(2023, 2, 12, 19), 'Test')
-        entry2 = Entry(datetime(2023, 2, 12, 18, 50), datetime(2023, 2, 12, 18, 55), 'Test')
+        expected = Entry(
+            datetime(2023, 2, 20, 23, 10, tzinfo=timezone.utc),
+            datetime(2023, 2, 20, 23, 12, tzinfo=timezone.utc),
+            'Category'
+        )
 
-        self.assertTrue(entry1.intersection(entry2))
+        self.assertEquals(self.entry.intersection(*interval), expected)
 
-    def test_entry_intersection3(self):
-        """
-        b1-a1-a2-b2 - intersection
-        """
+    def test_intersection_E1_T1_T2_E2(self):
+        start_time = datetime(2023, 2, 20, 23, 12, tzinfo=timezone.utc)
+        end_time = datetime(2023, 2, 20, 23, 14, tzinfo=timezone.utc)
+        interval = (start_time, end_time)
 
-        entry1 = Entry(datetime(2023, 2, 12, 18, 50), datetime(2023, 2, 12, 18, 55), 'Test')
-        entry2 = Entry(datetime(2023, 2, 12, 18, 45), datetime(2023, 2, 12, 19), 'Test')
+        expected = Entry(
+            datetime(2023, 2, 20, 23, 12, tzinfo=timezone.utc),
+            datetime(2023, 2, 20, 23, 14, tzinfo=timezone.utc),
+            'Category'
+        )
 
-        self.assertTrue(entry1.intersection(entry2))
+        self.assertEquals(self.entry.intersection(*interval), expected)
 
-    def test_entry_intersection4(self):
-        """
-        b1-a1-b2-a2 - intersection
-        """
+    def test_intersection_E1_T1_E2_T2(self):
+        start_time = datetime(2023, 2, 20, 23, 12, tzinfo=timezone.utc)
+        end_time = datetime(2023, 2, 20, 23, 16, tzinfo=timezone.utc)
+        interval = (start_time, end_time)
 
-        entry1 = Entry(datetime(2023, 2, 12, 18, 55), datetime(2023, 2, 12, 19, 5), 'Test')
-        entry2 = Entry(datetime(2023, 2, 12, 18, 50), datetime(2023, 2, 12, 19), 'Test')
+        expected = Entry(
+            datetime(2023, 2, 20, 23, 12, tzinfo=timezone.utc),
+            datetime(2023, 2, 20, 23, 15, tzinfo=timezone.utc),
+            'Category'
+        )
 
-        self.assertTrue(entry1.intersection(entry2))
+        self.assertEquals(self.entry.intersection(*interval), expected)
 
-    def test_entry_intersection5(self):
-        """
-        b1-b2-a1-a2 - no intersection
-        """
+    def test_intersection_E1_E2_T1_T2(self):
+        start_time = datetime(2023, 2, 20, 23, 45, tzinfo=timezone.utc)
+        end_time = datetime(2023, 2, 20, 23, 50, tzinfo=timezone.utc)
+        interval = (start_time, end_time)
 
-        entry1 = Entry(datetime(2023, 2, 12, 19), datetime(2023, 2, 12, 19, 5), 'Test')
-        entry2 = Entry(datetime(2023, 2, 12, 18, 50), datetime(2023, 2, 12, 18, 55), 'Test')
+        expected = None
 
-        self.assertFalse(entry1.intersection(entry2))
+        self.assertEquals(self.entry.intersection(*interval), expected)
 
-    def test_entry_intersection6(self):
-        """
-        a1-a2 - no intersection (other is None)
-        """
+    def test_intersection_T1_E1_E2_T2(self):
+        start_time = datetime(2023, 2, 20, 23, 5, tzinfo=timezone.utc)
+        end_time = datetime(2023, 2, 20, 23, 20, tzinfo=timezone.utc)
+        interval = (start_time, end_time)
+
+        expected = Entry(
+            datetime(2023, 2, 20, 23, 10, tzinfo=timezone.utc),
+            datetime(2023, 2, 20, 23, 15, tzinfo=timezone.utc),
+            'Category'
+        )
+
+        self.assertEquals(self.entry.intersection(*interval), expected)
         
-        entry1 = Entry(datetime(2023, 2, 12, 19, 30), datetime(2023, 2, 12, 19, 35), 'Test')
-        entry2 = None
-
-        self.assertFalse(entry1.intersection(entry2))

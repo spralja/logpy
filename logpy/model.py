@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional, Self
 
 
@@ -11,16 +11,69 @@ class Entry:
     description: str = ''
 
     def __post_init__(self):
+        """
+        Check that the Entry object was initialized with valid start and end 
+            times in UTC.
+
+        Raises:
+            ValueError: If the start_time or end_time is not in UTC, or if the 
+            end_time is not after the start_time.
+        """
+
+        if self.start_time.tzinfo != timezone.utc:
+            raise ValueError("start_time.tzinfo must be datetime.timezone.utc")
+
+        if self.end_time.tzinfo != timezone.utc:
+            raise ValueError("end_time.tzinfo must be datetime.timezone.utc")
+
         if self.end_time <= self.start_time:
-            raise ValueError("End time must be after start time")
-
-    def intersection(self, other: Optional[Self]) -> bool:
+            raise ValueError("end_time must be after start_time")
+        
+    def intersection(
+        self, 
+        start_time: datetime, 
+        end_time: datetime
+    ) -> Optional[Self]:
         """
-        Returns True if there is an intersection between self and other and False otherwise (if other is None, returns True)
-        """
-        if other: return self.start_time < other.end_time and self.end_time > other.start_time
+        Calculate the intersection between this Entry object and a time 
+        interval defined by `start_time` and `end_time`. If the intersection 
+        is empty, return `None`.
 
-        return False
+        Args:
+            start_time (datetime): The start time of the interval to intersect 
+            with.
+
+            end_time (datetime): The end time of the interval to intersect 
+            with.
+
+        Returns:
+            Optional[Self]: An Entry object representing the intersection 
+            between this object and the given time interval, or None if the 
+            intersection is empty.
+
+        """
+
+        if start_time.tzinfo != timezone.utc:
+            raise ValueError("start_time.tzinfo must be datetime.timezone.utc")
+
+        if end_time.tzinfo != timezone.utc:
+            raise ValueError("end_time.tzinfo must be datetime.timezone.utc")
+
+        if end_time <= start_time:
+            raise ValueError("end_time must be after start_time")
+
+        if start_time >= self.end_time: 
+            return None
+
+        if end_time <= self.start_time: 
+            return None
+
+        return Entry(
+            max(self.start_time, start_time), 
+            min(self.end_time, end_time), 
+            self.category, 
+            self.description
+        )
 
     def duration(self):
         return self.end_time - self.start_time
