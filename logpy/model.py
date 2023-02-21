@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from typing import Optional, Self
 
 
@@ -74,5 +74,6 @@ class Entry:
             self.description
         )
 
-    def duration(self):
+    @property
+    def duration(self) -> timedelta:
         return self.end_time - self.start_time
