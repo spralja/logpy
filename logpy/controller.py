@@ -29,7 +29,7 @@ class Controller(ABC):
     @abstractmethod
     def _find_last_before(self, dt: datetime) -> Entry:
         """
-        Finds that last entry that starts before the specified time
+        Finds that last entry that starts before or at the specified time
 
         Args:
             dt (datetime): The time to search for
