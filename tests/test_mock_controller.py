@@ -1,6 +1,6 @@
 import unittest
 
-from logpy.model import Entry
+from logpy.model import Entry, Mutation
 
 from .mock_controller import MockController
 
@@ -146,3 +146,68 @@ class MockControllerTestCase(unittest.TestCase):
         )
 
         self.assertEqual(entry, expected)
+
+    def test_publish_entry(self):
+        entry = Entry(
+            datetime(2023, 1, 3, 9, 15, tzinfo=timezone.utc), 
+            datetime(2023, 1, 3, 9, 45, tzinfo=timezone.utc), 
+            'Test'
+        )
+        
+        expected_data = (
+            Entry(
+                datetime(2022, 1, 1, 0, 0, tzinfo=timezone.utc), 
+                datetime(2022, 1, 1, 1, 0, tzinfo=timezone.utc), 
+                'Work'
+            ),
+            Entry(
+                datetime(2022, 1, 2, 0, 0, tzinfo=timezone.utc), 
+                datetime(2022, 1, 2, 1, 30, tzinfo=timezone.utc), 
+                'Personal'
+            ),
+            Entry(
+                datetime(2022, 1, 3, 9, 0, tzinfo=timezone.utc), 
+                datetime(2022, 1, 3, 10, 0, tzinfo=timezone.utc), 
+                'Work'
+            ),
+            Entry(
+                datetime(2022, 1, 4, 10, 0, tzinfo=timezone.utc), 
+                datetime(2022, 1, 4, 12, 0, tzinfo=timezone.utc), 
+                'Personal'
+            ),
+            Entry(
+                datetime(2022, 1, 5, 13, 0, tzinfo=timezone.utc), 
+                datetime(2022, 1, 5, 14, 0, tzinfo=timezone.utc), 
+                'Work'
+            ),
+            Entry(
+                datetime(2022, 1, 6, 14, 0, tzinfo=timezone.utc), 
+                datetime(2022, 1, 6, 15, 30, tzinfo=timezone.utc), 
+                'Personal'
+            ),
+            Entry(
+                datetime(2023, 1, 3, 9, 15, tzinfo=timezone.utc), 
+                datetime(2023, 1, 3, 9, 45, tzinfo=timezone.utc), 
+                'Test'
+            )
+        )
+
+        expected_mutations = (
+            (
+                Mutation(
+                    'creator', 
+                    Entry(
+                        datetime(2023, 1, 3, 9, 15, tzinfo=timezone.utc), 
+                        datetime(2023, 1, 3, 9, 45, tzinfo=timezone.utc), 
+                        'Test'
+                    )
+                )
+            )
+        )
+
+        self.controller._publish_entry(entry)
+
+        self.assertEqual(self.controller.date, expected_data)
+
+        self.assertEqual(self.controller.mutations, expected_mutations)
+       
