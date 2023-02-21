@@ -107,3 +107,38 @@ class Controller(ABC):
         
         # convert the list to a tuple before returning
         return tuple(sorted(entries))
+
+
+class MutatorController(Controller):
+    @abstractmethod
+    def _publish_entry(self, entry: Entry):
+        """
+            Publishes the entry and mutation
+
+            Args:
+                entry: the entry to publish
+
+            Raises:
+                NotImplementedError: if the method is not implemented by a 
+                subclass
+        """
+    
+    def create_entry(self, entry: Entry):
+        """
+            Tries to create an Entry
+
+            Args:
+                entry: the entry to create
+            
+            Raises:
+                KeyError: If there entry that conflicts with the entry to be 
+                created
+        """
+
+        conflicts = self.get_intersection(entry.start_time, entry.end_time)
+
+        if conflicts:
+            raise KeyError(f'{entry} conflicts with {conflicts}!')
+        
+        self._publish_entry(entry)
+    
