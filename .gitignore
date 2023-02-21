@@ -1,1 +1,5 @@
+# pycache
 *.pyc
+
+# build
+/dist/
