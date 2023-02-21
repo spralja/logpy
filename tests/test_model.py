@@ -1,6 +1,6 @@
 import unittest
 
-from logpy.model import Entry
+from logpy.model import Entry, Mutation
 
 from datetime import datetime, timedelta, timezone
 
@@ -125,4 +125,17 @@ class EntryIntersectionTestCase(unittest.TestCase):
         )
 
         self.assertEqual(self.entry.intersection(*interval), expected)
-        
+
+
+class MutationTestCase(unittest.TestCase):
+    def test_validation(self):
+        mutation_class = 'test'
+        entry = Entry(
+            datetime(2023, 2, 21, 18, 35, tzinfo=timezone.utc),
+            datetime(2023, 2, 21, 18, 40, tzinfo=timezone.utc),
+            'Category'
+        )
+
+        with self.assertRaises(ValueError):
+            Mutation(mutation_class, entry)
+            
