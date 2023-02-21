@@ -2,7 +2,7 @@ from .model import Entry
 
 from abc import ABC, abstractmethod
 from datetime import datetime
-from typing import List
+from typing import Tuple
 
 
 class Controller(ABC):
