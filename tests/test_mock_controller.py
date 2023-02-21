@@ -192,18 +192,14 @@ class MockControllerTestCase(unittest.TestCase):
             )
         )
 
-        expected_mutations = (
+        expected_mutations = [
             (
                 Mutation(
                     'creator', 
-                    Entry(
-                        datetime(2023, 1, 3, 9, 15, tzinfo=timezone.utc), 
-                        datetime(2023, 1, 3, 9, 45, tzinfo=timezone.utc), 
-                        'Test'
-                    )
+                    entry
                 )
             )
-        )
+        ]
 
         self.controller._publish_entry(entry)
 
