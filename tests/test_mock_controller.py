@@ -207,7 +207,7 @@ class MockControllerTestCase(unittest.TestCase):
 
         self.controller._publish_entry(entry)
 
-        self.assertEqual(self.controller.date, expected_data)
+        self.assertEqual(self.controller.data, expected_data)
 
         self.assertEqual(self.controller.mutations, expected_mutations)
        
