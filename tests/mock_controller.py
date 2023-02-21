@@ -31,7 +31,10 @@ class MockController(MutatorController):
 
     def _publish_entry(self, entry):
         self.data += (entry,)
+        self.data = tuple(sorted(self.data))
+
         self.mutations.append(Mutation(
             'creator',
             entry
         )) 
+        
