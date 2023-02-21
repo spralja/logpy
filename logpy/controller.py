@@ -11,7 +11,7 @@ class Controller(ABC):
     """
 
     @abstractmethod
-    def _find_first_after(dt: datetime) -> Entry:
+    def _find_first_after(self, dt: datetime) -> Entry:
         """
         Finds the first entry that starts after or at the specfied time 
 
@@ -27,7 +27,7 @@ class Controller(ABC):
         """
     
     @abstractmethod
-    def _find_last_before(dt: datetime) -> Entry:
+    def _find_last_before(self, dt: datetime) -> Entry:
         """
         Finds that last entry that starts before the specified time
 
