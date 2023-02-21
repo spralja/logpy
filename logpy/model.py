@@ -50,7 +50,6 @@ class Entry:
             Optional[Self]: An Entry object representing the intersection 
             between this object and the given time interval, or None if the 
             intersection is empty.
-
         """
 
         if start_time.tzinfo != timezone.utc:
