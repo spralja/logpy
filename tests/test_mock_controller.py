@@ -62,7 +62,7 @@ class MockControllerTestCase(unittest.TestCase):
 
     def test_find_first_after_the_time_is_during_another_entry(self):
         entry = self.controller._find_first_after(
-            datetime(2022, 1, 1, 0, 30), tzinfo=timezone.utc
+            datetime(2022, 1, 1, 0, 30, tzinfo=timezone.utc)
         )
 
         expected = Entry(
