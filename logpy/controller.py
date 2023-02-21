@@ -42,14 +42,14 @@ class Controller(ABC):
             subclass
         """
 
-    def get_intersection(self, start_time, end_time) -> List[Entry]:
+    def get_intersection(self, start_time, end_time) -> Tuple[Entry]:
         """
-        Creates a list of entries that intersect with the interval
+        Creates a tuple of entries that intersect with the interval
 
         Args:
             start_time (datetime): The start time of the interval
             end_time (datetime): The end time of the interval
 
         Returns:
-            A list of entry intersections with the interval
+            A tuple of entry intersections with the interval
         """
