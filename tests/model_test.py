@@ -2,7 +2,7 @@ import unittest
 
 from logpy.model import Entry
 
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 
 class EntryTestCase(unittest.TestCase):
@@ -22,6 +22,15 @@ class EntryTestCase(unittest.TestCase):
                 datetime(2023, 20, 2, 23, 45),
                 'Category'
             )
+
+    def test_duration(self):
+        entry = Entry(
+            datetime(2023, 2, 21, 14, 40, tzinfo=timezone.utc),
+            datetime(2023, 2, 21, 14, 45, tzinfo=timezone.utc),
+            'Category'
+        )
+
+        self.assertEqual(entry.duration, timedelta(seconds=300))
             
 
 class EntryIntersectionTestCase(unittest.TestCase):
