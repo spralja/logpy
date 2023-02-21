@@ -114,9 +114,9 @@ class MockControllerTestCase(unittest.TestCase):
         )
 
         expected = Entry(
-            datetime(2022, 1, 6, 14, 0, tzinfo=timezone.utc), 
-            datetime(2022, 1, 6, 15, 30, tzinfo=timezone.utc), 
-            'Personal'
+            datetime(2022, 1, 5, 13, 0, tzinfo=timezone.utc), 
+            datetime(2022, 1, 5, 14, 0, tzinfo=timezone.utc), 
+            'Work'
         )
 
         self.assertEqual(entry, expected)
