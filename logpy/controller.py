@@ -2,6 +2,8 @@ from .model import Entry
 
 from abc import ABC, abstractmethod
 from datetime import datetime
+from typing import List
+
 
 class Controller(ABC):
     """
@@ -38,4 +40,16 @@ class Controller(ABC):
         Raises:
             NotImplementedError: If the method is not implemented by a 
             subclass
+        """
+
+    def get_intersection(self, start_time, end_time) -> List[Entry]:
+        """
+        Creates a list of entries that intersect with the interval
+
+        Args:
+            start_time (datetime): The start time of the interval
+            end_time (datetime): The end time of the interval
+
+        Returns:
+            A list of entry intersections with the interval
         """
