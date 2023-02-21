@@ -95,7 +95,6 @@ class Mutation:
     entry: Entry
 
     def __post_init__(self):
-        print("teeest")
         if self.mutation_class not in {'creator', 'destroyer'}:
             raise ValueError(
                 'mutation_class must be \'creator\' or \'destroyer\''
