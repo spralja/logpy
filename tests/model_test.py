@@ -54,7 +54,7 @@ class EntryIntersectionTestCase(unittest.TestCase):
 
         expected = None
 
-        self.assertEquals(self.entry.intersection(*interval), expected)
+        self.assertEqual(self.entry.intersection(*interval), expected)
 
     def test_intersection_T1_E1_T2_E2(self):
         start_time = datetime(2023, 2, 20, 23, 5, tzinfo=timezone.utc)
@@ -67,7 +67,7 @@ class EntryIntersectionTestCase(unittest.TestCase):
             'Category'
         )
 
-        self.assertEquals(self.entry.intersection(*interval), expected)
+        self.assertEqual(self.entry.intersection(*interval), expected)
 
     def test_intersection_E1_T1_T2_E2(self):
         start_time = datetime(2023, 2, 20, 23, 12, tzinfo=timezone.utc)
@@ -80,7 +80,7 @@ class EntryIntersectionTestCase(unittest.TestCase):
             'Category'
         )
 
-        self.assertEquals(self.entry.intersection(*interval), expected)
+        self.assertEqual(self.entry.intersection(*interval), expected)
 
     def test_intersection_E1_T1_E2_T2(self):
         start_time = datetime(2023, 2, 20, 23, 12, tzinfo=timezone.utc)
@@ -93,7 +93,7 @@ class EntryIntersectionTestCase(unittest.TestCase):
             'Category'
         )
 
-        self.assertEquals(self.entry.intersection(*interval), expected)
+        self.assertEqual(self.entry.intersection(*interval), expected)
 
     def test_intersection_E1_E2_T1_T2(self):
         start_time = datetime(2023, 2, 20, 23, 45, tzinfo=timezone.utc)
@@ -102,7 +102,7 @@ class EntryIntersectionTestCase(unittest.TestCase):
 
         expected = None
 
-        self.assertEquals(self.entry.intersection(*interval), expected)
+        self.assertEqual(self.entry.intersection(*interval), expected)
 
     def test_intersection_T1_E1_E2_T2(self):
         start_time = datetime(2023, 2, 20, 23, 5, tzinfo=timezone.utc)
@@ -115,5 +115,5 @@ class EntryIntersectionTestCase(unittest.TestCase):
             'Category'
         )
 
-        self.assertEquals(self.entry.intersection(*interval), expected)
+        self.assertEqual(self.entry.intersection(*interval), expected)
         
