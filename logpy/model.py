@@ -76,4 +76,14 @@ class Entry:
 
     @property
     def duration(self) -> timedelta:
+        """
+        Returns the duration of this event as a timedelta object.
+    
+        The duration is computed as the difference between the end_time and 
+        the start_time of the event. The result is a timedelta object that 
+        represents the duration in days, seconds, and microseconds.
+    
+        Returns:
+            A timedelta object representing the duration of the event.
+        """
         return self.end_time - self.start_time
