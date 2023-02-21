@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
-from typing import Optional, Self
+from typing import Optional, Self, Union
 
 
 @dataclass(frozen=True, order=True)
@@ -87,3 +87,16 @@ class Entry:
             A timedelta object representing the duration of the event.
         """
         return self.end_time - self.start_time
+
+
+@dataclass(frozen=True)
+class Mutation:
+    mutation_class: str
+    entry: Entry
+
+    def __post_init__(self):
+        print("teeest")
+        if self.mutation_class not in {'creator', 'destroyer'}:
+            raise ValueError(
+                'mutation_class must be \'creator\' or \'destroyer\''
+            )
