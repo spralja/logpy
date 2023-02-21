@@ -98,3 +98,51 @@ class MockControllerTestCase(unittest.TestCase):
         )
 
         self.assertEqual(entry, expected)
+
+    def test_find_last_before_there_is_none(self):
+        entry = self.controller._find_last_before(
+            datetime(2021, 1, 1, tzinfo=timezone.utc)
+        )
+
+        expected = None
+
+        self.assertEqual(entry, expected)
+
+    def test_find_last_before_during_another_entry(self):
+        entry = self.controller._find_last_before(
+            datetime(2022, 1, 5, 13, 30, tzinfo=timezone.utc)
+        )
+
+        expected = Entry(
+            datetime(2022, 1, 6, 14, 0, tzinfo=timezone.utc), 
+            datetime(2022, 1, 6, 15, 30, tzinfo=timezone.utc), 
+            'Personal'
+        )
+
+        self.assertEqual(entry, expected)
+
+    def test_find_last_before_time_at_start_of_the_entry(self):
+        entry = self.controller._find_last_before(
+            datetime(2022, 1, 3, 9, tzinfo=timezone.utc)
+        )
+
+        expected =  Entry(
+            datetime(2022, 1, 3, 9, 0, tzinfo=timezone.utc), 
+            datetime(2022, 1, 3, 10, 0, tzinfo=timezone.utc), 
+            'Work'
+        )
+
+        self.assertEqual(entry, expected)
+
+    def test_find_last_before_time_is_after_the_start_of_the_entry(self):
+        entry = self.controller._find_last_before(
+            datetime(2022, 1, 1, 2, tzinfo=timezone.utc)
+        )
+
+        expected = Entry(
+            datetime(2022, 1, 1, 0, 0, tzinfo=timezone.utc), 
+            datetime(2022, 1, 1, 1, 0, tzinfo=timezone.utc), 
+            'Work'
+        )
+
+        self.assertEqual(entry, expected)
