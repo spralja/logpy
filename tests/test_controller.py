@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 class ControllerTestCase(unittest.TestCase):
 
     def setUp(self):
+        self.maxDiff = None
         self.controller = MockController(
             Entry(
                 datetime(2022, 1, 1, 0, 0, tzinfo=timezone.utc), 
@@ -90,7 +91,7 @@ class ControllerTestCase(unittest.TestCase):
             )
         )
 
-        self.assertCountEqual(entries, expected)
+        self.assertEqual(entries, expected)
 
     def test_get_intersection_all_truncated(self):
         interval = (
@@ -133,7 +134,7 @@ class ControllerTestCase(unittest.TestCase):
             )
         )
 
-        self.assertCountEqual(entries, expected)
+        self.assertEqual(entries, expected)
 
     def test_get_intersection_none(self):
         interval = (
@@ -143,11 +144,9 @@ class ControllerTestCase(unittest.TestCase):
 
         entries = self.controller.get_intersection(*interval)
 
-        expected = tuple()
-
         expected = ()
 
-        self.assertCountEqual(entries, expected)
+        self.assertEqual(entries, expected)
 
     def test_intersection_one(self):
         interval = (
@@ -165,7 +164,7 @@ class ControllerTestCase(unittest.TestCase):
             ),
         )
 
-        self.assertCountEqual(entries, expected)
+        self.assertEqual(entries, expected)
 
     def test_get_intersection_one_truncated(self):
         interval = (
@@ -183,4 +182,4 @@ class ControllerTestCase(unittest.TestCase):
             ),
         )
 
-        self.assertCountEqual(entries, expected)
+        self.assertEqual(entries, expected)
