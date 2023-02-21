@@ -42,6 +42,13 @@ class ControllerTestCase(unittest.TestCase):
             )
         )
 
+    def test_get_intersection_not_utc(self):
+        interval = (datetime(2021, 1, 1), datetime(2023, 1, 1))
+
+        with self.assertRaises(ValueError):
+            self.controller.get_intersection(*interval)
+
+
     def test_get_intersection_all(self):
         interval = (
             datetime(2021, 1, 1, tzinfo=timezone.utc),
@@ -177,4 +184,3 @@ class ControllerTestCase(unittest.TestCase):
         )
 
         self.assertCountEqual(entries, expected)
-        
