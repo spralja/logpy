@@ -149,8 +149,8 @@ class MockControllerTestCase(unittest.TestCase):
 
     def test_publish_entry(self):
         entry = Entry(
-            datetime(2023, 1, 3, 9, 15, tzinfo=timezone.utc), 
-            datetime(2023, 1, 3, 9, 45, tzinfo=timezone.utc), 
+            datetime(2022, 1, 1, 12, 15, tzinfo=timezone.utc), 
+            datetime(2022, 1, 2, 0, 0, tzinfo=timezone.utc), 
             'Test'
         )
         
@@ -159,6 +159,11 @@ class MockControllerTestCase(unittest.TestCase):
                 datetime(2022, 1, 1, 0, 0, tzinfo=timezone.utc), 
                 datetime(2022, 1, 1, 1, 0, tzinfo=timezone.utc), 
                 'Work'
+            ),
+            Entry(
+                datetime(2022, 1, 1, 12, 15, tzinfo=timezone.utc), 
+                datetime(2022, 1, 2, 0, 0, tzinfo=timezone.utc), 
+                'Test'
             ),
             Entry(
                 datetime(2022, 1, 2, 0, 0, tzinfo=timezone.utc), 
@@ -184,11 +189,6 @@ class MockControllerTestCase(unittest.TestCase):
                 datetime(2022, 1, 6, 14, 0, tzinfo=timezone.utc), 
                 datetime(2022, 1, 6, 15, 30, tzinfo=timezone.utc), 
                 'Personal'
-            ),
-            Entry(
-                datetime(2023, 1, 3, 9, 15, tzinfo=timezone.utc), 
-                datetime(2023, 1, 3, 9, 45, tzinfo=timezone.utc), 
-                'Test'
             )
         )
 
