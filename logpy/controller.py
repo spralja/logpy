@@ -44,14 +44,14 @@ class Controller(ABC):
 
     def get_intersection(self, start_time, end_time) -> Tuple[Entry]:
         """
-        Creates a tuple of entries that intersect with the interval
+        Creates a sorted tuple of entries that intersect with the interval
 
         Args:
-            start_time (datetime): The start time of the interval
-            end_time (datetime): The end time of the interval
+            start_time (datetime): The start time of the interval (must be utc)
+            end_time (datetime): The end time of the interval (must be utc)
 
         Returns:
-            A tuple of entry intersections with the interval
+            A sorted tuple of entry intersections with the interval
         """
         
         # check that start_time is utc
