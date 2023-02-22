@@ -127,7 +127,7 @@ class MutatorController(Controller):
             :raise NotImplementedError: if the method is not implemented by a 
                 subclass
         """
-        
+
     def create_entry(self, entry: Entry):
         """
             Tries to create an Entry
@@ -153,4 +153,9 @@ class MutatorController(Controller):
         :type entry: model.Entry
         :raise KeyError: If the entry that is to be deleted does not exist
         """
+
+        if entry != self._find_first_after(entry.start_time):
+            raise KeyError(f"{entry} does not exist!")
+
+        self._retract_entry(entry)
     
