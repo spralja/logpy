@@ -117,6 +117,17 @@ class MutatorController(Controller):
                 subclass
         """
     
+    @abstractmethod
+    def _retract_entry(self, entry: Entry):
+        """
+            Deletes the entry and publishes the respective mutation
+
+            :param entry: the entry to be deleted
+            :type entry: model.Entry
+            :raise NotImplementedError: if the method is not implemented by a 
+                subclass
+        """
+        
     def create_entry(self, entry: Entry):
         """
             Tries to create an Entry
@@ -133,4 +144,13 @@ class MutatorController(Controller):
             raise KeyError(f'{entry} conflicts with {conflicts}!')
         
         self._publish_entry(entry)
+
+    def delete_entry(self, entry: Entry):
+        """
+        Tries to delete the provided entry
+
+        :param entry: The Entry to be deleted
+        :type entry: model.Entry
+        :raise KeyError: If the entry that is to be deleted does not exist
+        """
     
