@@ -8,8 +8,8 @@ sys.path.insert(0, os.path.abspath('/home/spralja/dev/logpy'))
 project = 'logpy'
 author = 'Robert Spralja'
 
-release = '0.3.2'
-version = '0.3.2'
+release = '0.3.3'
+version = '0.3.3'
 
 # -- General configuration
 
