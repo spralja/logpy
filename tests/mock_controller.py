@@ -37,4 +37,17 @@ class MockController(MutatorController):
             'creator',
             entry
         )) 
+    
+    def _retract_entry(self, entry):
+        self.data = list(self.data)
+        self.data.remove(entry)
+
+        self.data = tuple(self.data)
+
+        self.mutations.append(
+            Mutation(
+                'destroyer',
+                entry
+            )
+        )
         
