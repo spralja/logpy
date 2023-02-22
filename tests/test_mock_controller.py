@@ -206,4 +206,54 @@ class MockControllerTestCase(unittest.TestCase):
         self.assertEqual(self.controller.data, expected_data)
 
         self.assertEqual(self.controller.mutations, expected_mutations)
-       
+    
+    def test_retract_entry(self):
+        entry = Entry(
+            datetime(2022, 1, 5, 13, 0, tzinfo=timezone.utc), 
+            datetime(2022, 1, 5, 14, 0, tzinfo=timezone.utc), 
+            'Work'
+        )
+        
+        expected_data = (
+            Entry(
+                datetime(2022, 1, 1, 0, 0, tzinfo=timezone.utc), 
+                datetime(2022, 1, 1, 1, 0, tzinfo=timezone.utc), 
+                'Work'
+            ),
+            Entry(
+                datetime(2022, 1, 2, 0, 0, tzinfo=timezone.utc), 
+                datetime(2022, 1, 2, 1, 30, tzinfo=timezone.utc), 
+                'Personal'
+            ),
+            Entry(
+                datetime(2022, 1, 3, 9, 0, tzinfo=timezone.utc), 
+                datetime(2022, 1, 3, 10, 0, tzinfo=timezone.utc), 
+                'Work'
+            ),
+            Entry(
+                datetime(2022, 1, 4, 10, 0, tzinfo=timezone.utc), 
+                datetime(2022, 1, 4, 12, 0, tzinfo=timezone.utc), 
+                'Personal'
+            ),
+            Entry(
+                datetime(2022, 1, 6, 14, 0, tzinfo=timezone.utc), 
+                datetime(2022, 1, 6, 15, 30, tzinfo=timezone.utc), 
+                'Personal'
+            )
+        )
+
+        expected_mutations = [
+            Mutation(
+                'destroyer',
+                Entry(
+                    datetime(2022, 1, 5, 13, 0, tzinfo=timezone.utc), 
+                    datetime(2022, 1, 5, 14, 0, tzinfo=timezone.utc), 
+                    'Work'
+                )
+            )
+        ]
+
+        self.controller._retract_entry(entry)
+
+        self.assertEqual(self.controller.data, expected_data)
+        self.assertEqual(self.controller.mutations, expected_mutations)
