@@ -7,23 +7,19 @@ from typing import Tuple
 
 class Controller(ABC):
     """
-    An abstract base class for controllers 
+    An abstract base class for (read-only) controllers 
     """
-
     @abstractmethod
     def _find_first_after(self, dt: datetime) -> Entry:
         """
         Finds the first entry that starts after or at the specfied time 
 
-        Args:
-            dt (datetime): The time to search for
-        
-        Returns:
-            Entry: the first entry that starts after or at the specified time
-        
-        Raises:
-            NotImplementedError: If the method is not implemented by a 
+        :param dt: The time to search for
+        :type dt: datetime.datetime
+        :raise NotImplementedError: if the method is not implemented by a 
             subclass
+        :return: the first entry that starts after or at the specified time
+        :rtype: model.Entry
         """
     
     @abstractmethod
@@ -31,27 +27,24 @@ class Controller(ABC):
         """
         Finds that last entry that starts before or at the specified time
 
-        Args:
-            dt (datetime): The time to search for
-
-        Returns:
-            Entry: the first entry that starts after or at the specified time
-
-        Raises:
-            NotImplementedError: If the method is not implemented by a 
+        :param dt: The time to search for
+        :type dt: datetime.datetime
+        :raise NotImplementedError: if the method is not implemented by a 
             subclass
+        :return: the last entry that starts before or at the specified time
+        :rtype: model.Entry
         """
 
     def get_intersection(self, start_time, end_time) -> Tuple[Entry]:
         """
         Creates a sorted tuple of entries that intersect with the interval
 
-        Args:
-            start_time (datetime): The start time of the interval (must be utc)
-            end_time (datetime): The end time of the interval (must be utc)
-
-        Returns:
-            A sorted tuple of entry intersections with the interval
+        :param start_time: The start time of the interval (must be utc)
+        :type start_time: datetime.datetime
+        :param end_time: The end time of the interval (must be utc)
+        :type end_time: datetime.datetime
+        :return: A sorted tuple of entry intersections with the interval
+        :rtype: tuple[model.Entry]
         """
         
         # check that start_time is utc
@@ -110,16 +103,17 @@ class Controller(ABC):
 
 
 class MutatorController(Controller):
+    """
+    An abstract base class for (read-write) controllers
+    """
     @abstractmethod
     def _publish_entry(self, entry: Entry):
         """
             Publishes the entry and mutation
 
-            Args:
-                entry: the entry to publish
-
-            Raises:
-                NotImplementedError: if the method is not implemented by a 
+            :param entry: the entry to publish
+            :type entry: model.Entry
+            :raise NotImplementedError: if the method is not implemented by a 
                 subclass
         """
     
@@ -127,12 +121,10 @@ class MutatorController(Controller):
         """
             Tries to create an Entry
 
-            Args:
-                entry: the entry to create
-            
-            Raises:
-                KeyError: If there entry that conflicts with the entry to be 
-                created
+            :param entry: The Entry to create
+            :type entry: model.Entry
+            :raise KeyError: If there is an entry that conflicts with the entry
+                to be created
         """
 
         conflicts = self.get_intersection(entry.start_time, entry.end_time)

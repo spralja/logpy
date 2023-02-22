@@ -12,3 +12,4 @@ logpy.controller
 
 .. automodule:: logpy.controller
     :members:
+    :private-members:

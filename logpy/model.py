@@ -5,6 +5,19 @@ from typing import Optional, Self, Union
 
 @dataclass(frozen=True, order=True)
 class Entry:
+    """
+    Frozen dataclass for log entries
+
+    :param start_time: the start time of the entry (must be utc)
+    :type start_time: datetime.datetime
+    :param end_time: the end time of the entry (must be utc)
+    :type end_time: datetime.datetime
+    :param category: the category of the entry
+    :type category: str
+    :param description: the description of the entry, defaults to ''
+    :type description: str
+    :raise ValueError: if the `start_time` or `end_time` are not UTC
+    """
     start_time: datetime
     end_time: datetime
     category: str
@@ -39,17 +52,17 @@ class Entry:
         interval defined by `start_time` and `end_time`. If the intersection 
         is empty, return `None`.
 
-        Args:
-            start_time (datetime): The start time of the interval to intersect 
-            with.
-
-            end_time (datetime): The end time of the interval to intersect 
-            with.
-
-        Returns:
-            Optional[Self]: An Entry object representing the intersection 
-            between this object and the given time interval, or None if the 
-            intersection is empty.
+        :param start_time: The start time of the inerval to intersect with 
+            (must be utc)
+        :type start_time: datetime.datetime
+        :param end_time: The end time of the interval to intersect with
+            (must be utc)
+        :type end_time: datetime.datetime
+        :raise ValueError: if the `start_time` or `end_time` are not UTC
+        :return: An Entry object representing the intersection between this 
+            object and the given time interval, or None if the intersection
+            is empty.
+        :rtype: Entry or None
         """
 
         if start_time.tzinfo != timezone.utc:
@@ -77,20 +90,30 @@ class Entry:
     @property
     def duration(self) -> timedelta:
         """
-        Returns the duration of this event as a timedelta object.
+        The duration of this event as a timedelta object.
     
         The duration is computed as the difference between the end_time and 
         the start_time of the event. The result is a timedelta object that 
         represents the duration in days, seconds, and microseconds.
     
-        Returns:
-            A timedelta object representing the duration of the event.
+        :return: the duration of the event
+        :rtype: datetime.timedelta
         """
         return self.end_time - self.start_time
 
 
 @dataclass(frozen=True)
 class Mutation:
+    """
+    Forzen dataclass representing a mutation (an action that modifies the log)
+    
+    :param mutation_class: the class of the mutation
+    :type mutation_class: 'creator' or 'destoryer'
+    :param entry: The entry that is created or destoryerd
+    :type entry: model.Entry
+    :raise ValueError: if `mutation_class` is any other value 
+        (not 'creator' nor 'destroyer')
+    """
     mutation_class: str
     entry: Entry
 
