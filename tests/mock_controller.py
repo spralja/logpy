@@ -1,10 +1,11 @@
-from logpy.controller import MutatorController
+from logpy.controller import BaseMutatorController
 from logpy.model import Entry, Mutation
 
 from datetime import timezone
 from typing import Tuple
 
-class MockController(MutatorController):
+
+class MockController(BaseMutatorController):
     def __init__(self, *data: Tuple[Entry]):
         self.data = data
         self.mutations = []
