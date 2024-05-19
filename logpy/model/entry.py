@@ -40,7 +40,10 @@ class Entry:
             raise ValueError("end_time.tzinfo must be datetime.timezone.utc")
 
         if self.end_time <= self.start_time:
-            raise ValueError("end_time must be after start_time")
+            raise ValueError(
+                f'end_time must be after start_time ({self.start_time.hour:02d}:{self.start_time.minute:02d} - '
+                f'{self.end_time.hour:02d}:{self.end_time.minute:02d})'
+            )
 
     def intersection(
             self,
