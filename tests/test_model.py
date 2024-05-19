@@ -3,6 +3,7 @@ import unittest
 from logpy.model import Entry, Mutation
 
 from datetime import datetime, timedelta, timezone
+import pytz
 
 
 class EntryTestCase(unittest.TestCase):
@@ -15,11 +16,19 @@ class EntryTestCase(unittest.TestCase):
                 'Category'
             )
 
-        # start_time and end_time are not UTC
+        # start_time and end_time are naive (timezone not defined)
         with self.assertRaises(ValueError):
             Entry(
                 datetime(2023, 20, 2, 23, 40),
                 datetime(2023, 20, 2, 23, 45),
+                'Category'
+            )
+
+        # start_time and end_time timezones do not match
+        with self.assertRaises(ValueError):
+            Entry(
+                datetime(2023, 20, 2, 23, 40, tzinfo=pytz.timezone('Europe/Copenhagen')),
+                datetime(2023, 20, 2, 23, 45, tzinfo=pytz.timezone('Europe/London')),
                 'Category'
             )
 

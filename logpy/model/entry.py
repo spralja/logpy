@@ -32,12 +32,11 @@ class Entry:
             ValueError: If the start_time or end_time is not in UTC, or if the
             end_time is not after the start_time.
         """
+        if not self.start_time.tzinfo or not self.end_time.tzinfo:
+            raise ValueError("start_time and end_time must not be naive")
 
-        if self.start_time.tzinfo != timezone.utc:
-            raise ValueError("start_time.tzinfo must be datetime.timezone.utc")
-
-        if self.end_time.tzinfo != timezone.utc:
-            raise ValueError("end_time.tzinfo must be datetime.timezone.utc")
+        if self.start_time.tzinfo != self.end_time.tzinfo:
+            raise ValueError("start_time and end_time timezone must match")
 
         if self.end_time <= self.start_time:
             raise ValueError(
