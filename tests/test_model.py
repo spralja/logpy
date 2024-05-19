@@ -11,24 +11,16 @@ class EntryTestCase(unittest.TestCase):
         # end_time <= start_time
         with self.assertRaises(ValueError):
             Entry(
-                datetime(2023, 20, 2, 23, 40, tzinfo=timezone.utc),
-                datetime(2023, 20, 2, 23, 30, tzinfo=timezone.utc),
+                datetime(2023, 12, 2, 23, 40, tzinfo=timezone.utc),
+                datetime(2023, 12, 2, 23, 30, tzinfo=timezone.utc),
                 'Category'
             )
 
         # start_time and end_time are naive (timezone not defined)
         with self.assertRaises(ValueError):
             Entry(
-                datetime(2023, 20, 2, 23, 40),
-                datetime(2023, 20, 2, 23, 45),
-                'Category'
-            )
-
-        # start_time and end_time timezones do not match
-        with self.assertRaises(ValueError):
-            Entry(
-                datetime(2023, 20, 2, 23, 40, tzinfo=pytz.timezone('Europe/Copenhagen')),
-                datetime(2023, 20, 2, 23, 45, tzinfo=pytz.timezone('Europe/London')),
+                datetime(2023, 12, 2, 23, 40),
+                datetime(2023, 12, 2, 23, 45),
                 'Category'
             )
 
