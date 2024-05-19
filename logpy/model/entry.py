@@ -35,9 +35,6 @@ class Entry:
         if not self.start_time.tzinfo or not self.end_time.tzinfo:
             raise ValueError("start_time and end_time must not be naive")
 
-        if self.start_time.tzinfo != self.end_time.tzinfo:
-            raise ValueError("start_time and end_time timezone must match")
-
         if self.end_time <= self.start_time:
             raise ValueError(
                 f'end_time must be after start_time ({self.start_time.hour:02d}:{self.start_time.minute:02d} - '
