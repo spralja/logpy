@@ -111,6 +111,7 @@ class ExcelController(BaseController):
                 break
 
             start_tod, end_tod, category, description, *optional = row
+            if type(start_tod) is str: print(start_time)
             meta_tzdiff = None
             if optional: meta_tzdiff, *_ = optional
             tzdiff = timedelta(hours=0)
@@ -135,7 +136,11 @@ class ExcelController(BaseController):
 
             #print(start_tod, end_tod, category, description)
             start_timedelta = timedelta(hours=start_tod.hour, minutes=start_tod.minute)
-            end_timedelta = timedelta(hours=end_tod.hour, minutes=end_tod.minute)
+            if end_tod: end_timedelta = timedelta(hours=end_tod.hour, minutes=end_tod.minute)
+            else: end_timedelta = timedelta(hours=datetime.now().hour, minutes=datetime.now().minute, seconds=datetime.now().second)
+            #else: end_timedelta = timedelta(hours=datetime.now().hour, minutes=5 * round(datetime.now().minute / 5))
+            # now category can be NOne which should be fixed, ignored...
+
             if end_timedelta.total_seconds() == 0:
                 end_timedelta = timedelta(days=1)
 
